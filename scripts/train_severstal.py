@@ -131,7 +131,7 @@ def acc_camvid(input, target):
     mask = target != void_code
     argmax = (input.argmax(dim=1))
     comparison = argmax[mask]==target[mask]
-    return torch.tensor(0.) if comparison.numel() == 0 else comparison.float().mean()
+    return torch.tensor(0.) if comparison.numel() == 0 else comparison.float().mean().cuda()
 
 def acc_camvid_with_zero_check(input, target):
     target = target.squeeze(1)
@@ -145,7 +145,7 @@ def acc_camvid_with_zero_check(input, target):
             mask = target[b] != void_code
             comparison = argmax[b][mask]==target[b][mask]
             total[b] = torch.tensor(0.) if comparison.numel() == 0 else comparison.float().mean()
-    return total.mean()
+    return total.mean().cuda()
 
 
 def calc_dice_coefficients(argmax, target, cats):
@@ -172,7 +172,7 @@ def dice_coefficient(input, target):
     total = torch.empty([batch_size])
     for b in range(batch_size):
         total[b] = calc_dice_coefficients(argmax[b], target[b], cats)
-    return total.mean()
+    return total.mean().cuda()
 
 def calc_dice_coefficients_2(argmax, target, cats):
     def calc_dice_coefficient(seg, gt, cat: int):
@@ -199,12 +199,12 @@ def dice_coefficient_2(input, target):
     total = torch.empty([batch_size])
     for b in range(batch_size):
         total[b] = calc_dice_coefficients_2(argmax[b], target[b], cats)
-    return total.mean()
+    return total.mean().cuda()
 
 
 def accuracy_simple(input, target):
     target = target.squeeze(1)
-    return (input.argmax(dim=1)==target).float().mean()
+    return (input.argmax(dim=1)==target).float().mean().cuda()
 
 ### Customized loss function
 
@@ -278,7 +278,7 @@ learn.loss_func = CombinedDiceLoss(zero_cat_factor=0.5)
 print(learn.loss_func)
 
 learn.model_dir = Path('/kaggle/model')
-learn = to_fp16(learn, loss_scale=4.0)
+learn = to_fp16(learn, loss_scale=8.0)
 
 lr=6e-05
 train_learner(learn, slice(lr), epochs=10, pct_start=0.8, best_model_name='bestmodel-frozen-1', 
