@@ -82,6 +82,7 @@ if not os.path.exists(mask_path/'0002cc93b.png'):
         if np.amax(masked) > 4:
             print(f'Check {image_name} for max category {np.amax(masked)}')
         save_to_image(masked, image_name)
+    print('Created masks')
         
 ### Transforms
 
@@ -272,13 +273,70 @@ def train_learner(learn, slice_lr, epochs=10, pct_start=0.8, best_model_name='be
 metrics=accuracy_simple, acc_camvid_with_zero_check, dice_coefficient, dice_coefficient_2
 wd=1e-2
 
-learn = unet_learner(data, models.resnet50, metrics=metrics, wd=wd, bottle=True)
+learn = unet_learner(data, models.resnet50, metrics=metrics, wd=wd, bottle=True).to_distributed(args.local_rank)
 learn.loss_func = CombinedDiceLoss(zero_cat_factor=0.5)
 print(learn.loss_func)
 
 learn.model_dir = Path('/kaggle/model')
 learn = to_fp16(learn, loss_scale=4.0)
 
-lr_find(learn, num_it=400)
-learn.recorder.plot()
-    
+lr=6e-05
+train_learner(learn, slice(lr), epochs=10, pct_start=0.8, best_model_name='bestmodel-frozen-1', 
+              patience_early_stop=4, patience_reduce_lr = 3)
+learn.save('stage-1')
+learn.load('bestmodel-frozen-1');
+
+learn.export(file='/kaggle/model/export-1.pkl')
+
+# Unfrozen training
+learn.unfreeze()
+lrs = slice(lr/100,lr)
+
+train_learner(learn, lrs, epochs=10, pct_start=0.8, best_model_name='bestmodel-unfrozen-1', 
+              patience_early_stop=6, patience_reduce_lr = 5)
+
+learn.save('stage-2');
+
+### Go Large
+learn=None
+gc.collect()
+
+bs=4
+
+def create_large_learner(bs=4, size=size, transform_func=get_simple_transforms, model_to_load='bestmodel-unfrozen-1'):
+    data = (src.transform(transform_func(), size=size, tfm_y=True)
+        .databunch(bs=bs)
+        .normalize(imagenet_stats))
+    learn = unet_learner(data, models.resnet50, metrics=metrics, wd=wd, bottle=True).to_distributed(args.local_rank)
+    learn.model_dir = Path('/kaggle/model')
+    learn.loss_func = CombinedDiceLoss(zero_cat_factor=0.5)
+    learn = to_fp16(learn, loss_scale=8.0)
+    if model_to_load is not None:
+        learn.load(model_to_load)
+    return learn
+
+learn = create_large_learner(bs=bs, size=src_size, transform_func=get_simple_transforms, model_to_load='bestmodel-unfrozen-1')
+
+lr=1e-05
+
+train_learner(learn, slice(lr), epochs=10, pct_start=0.8, best_model_name='bestmodel-frozen-3', 
+              patience_early_stop=8, patience_reduce_lr = 7)
+
+learn.save('stage-3');
+learn.load('bestmodel-frozen-3')
+
+learn.export(file='/kaggle/model/export-3.pkl')
+
+# Unfrozen training
+learn.unfreeze()
+
+lrs = slice(lr/1000,lr/10)
+
+train_learner(learn, lrs, epochs=12, pct_start=0.8, best_model_name='bestmodel-4', 
+              patience_early_stop=7, patience_reduce_lr = 5)
+
+learn.save('stage-4');
+learn.load('bestmodel-4');
+
+learn.export(file='/kaggle/model/export-4.pkl')
+
