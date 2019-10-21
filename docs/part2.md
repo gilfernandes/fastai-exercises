@@ -3,7 +3,7 @@ title: 'Part 2: Deep Learning from the Foundations'
 toc: false
 ---
 
-Welcome to *Part 2: Deep Learning from the Foundations*, which shows how to build a state of the art deep learning model from scratch. It takes you all the way from the foundations of implementing matrix multiplication and back-propogation, through to high performance mixed-precision training, to the latest neural network architectures and learning techniques, and everything in between. It covers many of the most important academic papers that form the foundations of modern deep learning, using "*code-first*" teaching, where each method is implemented from scratch in python and explained in detail (in the process, we'll discuss many important software engineering techniques too). Before starting this part, you need to have completed [Part 1: Practical Deep Learning for Coders](/).
+Welcome to *Part 2: Deep Learning from the Foundations*, which shows how to build a state of the art deep learning model from scratch. It takes you all the way from the foundations of implementing matrix multiplication and back-propagation, through to high performance mixed-precision training, to the latest neural network architectures and learning techniques, and everything in between. It covers many of the most important academic papers that form the foundations of modern deep learning, using "*code-first*" teaching, where each method is implemented from scratch in python and explained in detail (in the process, we'll discuss many important software engineering techniques too). Before starting this part, you need to have completed [Part 1: Practical Deep Learning for Coders](/).
 
 The first five lessons use Python, [PyTorch](https://pytorch.org), and the [fastai](https://docs.fast.ai) library; the last two lessons use [Swift for TensorFlow](https://www.tensorflow.org/swift), and are co-taught with [Chris Lattner](https://en.wikipedia.org/wiki/Chris_Lattner), the original creator of Swift, clang, and LLVM.
 
@@ -90,7 +90,7 @@ Then we look at one of the jewels of fastai: the Data Block API. We already saw 
 - Split and label: we create flexible functions for each
 - DataBunch: we'll see that `DataBunch` is a very simple container for our `DataLoader`s
 
-Next up, we build a new `StatefulOptimizer` class, and show that nearly all optimizers used in modern deep learning training are just special cases of this one class. We use it to add weight decay, momentum, Adam, and LAMB optimizers, and take a look a detailed look at how momentum changes training.
+Next up, we build a new `StatefulOptimizer` class, and show that nearly all optimizers used in modern deep learning training are just special cases of this one class. We use it to add weight decay, momentum, Adam, and LAMB optimizers, and take a detailed look at how momentum changes training.
 
 {% include img.html w="480" url="part2_3/9a_mom.png" description="The impact of varying momentum on a synthetic training example" %}
 
