@@ -64,9 +64,10 @@ When you select an environment, verify that it contains python packages like fas
 <img alt="" src="/images/easyaiforum/start.png" class="screenshot">
 
 ## Step 4: Open Jupyter Notebook
-
+    华中一区:/home/ubuntu/MyFiles/PublicData_1/fast.ai/
+	华东二区:/home/ubuntu/MyFiles/PublicData/data_extent_1/fast.ai/
 <img alt="" src="/images/easyaiforum/jupyter_open.jpg" class="screenshot">
-### Windows Server
+### Windows Server  [Use Warining](#warining)
 
 All Windows servers have installed the fastai package based on conda virtual environment. And the virtual environment can be activated by typing “conda activate fastai”.
 
@@ -96,7 +97,7 @@ cd /home/ubuntu/MyFiles && tar -xzf course-v3.tar.gz
 ```
 <img alt="" src="/images/easyaiforum/start_my_fastai.png" class="screenshot">
 
-### Windows Server
+### Windows Server [Usage Warning](#warning)
 
 After using RDP to enter the windows desktop, open the terminal, activate the fastai environment, run jupyter notebook and specify the running directory as the P drive to start learning fastai. (Note: This content in the P drive is still read-only. If you need to edit notebok, please refer to the use method on ubuntu to copy the files to the desktop. If you want to save files, please store it in the M drive[Do not train model in M drive, it will be very slow]).
 
@@ -132,10 +133,19 @@ If you have trouble using the platform, you can contact customer service to help
 
 ### The dataset location of fast.ai(fast.ai 的数据集的位置)
 
-ubuntu: /home/ubuntu/MyFiles/PublicData_1/fast.ai/fast.ai_datasets
+ubuntu: 
+    华中一区 /home/ubuntu/MyFiles/PublicData_1/fast.ai/fast.ai_datasets
+	华东二区 /home/ubuntu/MyFiles/PublicData/data_extent_1/fast.ai/fast.ai_datasets
 
 windows: P:/PublicData_1/fast.ai/fast.ai_datasets
 
 ### Where can I get help from fast.ai? 哪里可以得到fast.ai的帮助？
 
 [ fast ai ](https://docs.fast.ai/)
+
+
+### Can I use Windows to learn fastai? 可以用Windows来学习fastai吗？
+
+<span id="warning"> </span>Windows isn't recommended for learning fastai. Because Windows is much slower for running PyTorch than Linux and Windows system grabs more GPU memory.
+
+不推荐你使用windows来学习fastai,因为在Windows里面运行pytorch会比在ubuntu慢,并且在windows中系统会占用更多的显存。
