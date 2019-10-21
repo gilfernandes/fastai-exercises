@@ -67,9 +67,6 @@ entries:
     output: web
     folderitems:
     - output: web
-      title: Crestle.ai (Easy)
-      url: /start_crestle.html
-    - output: web
       title: Salamander (Easy)
       url: /start_salamander.html
     - output: web
@@ -81,6 +78,9 @@ entries:
     - output: web
       title: Kaggle.com (Easy)
       url: /start_kaggle.html
+    - output: web
+      title: 易学智能 (Easy)
+      url: /start_easyaiforum.html
     - output: web
       title: Google Cloud (Intermediate)
       url: /start_gcp.html
@@ -100,17 +100,11 @@ entries:
     output: web
     folderitems:
     - output: web
-      title: Crestle
-      url: /update_crestle.html
-    - output: web
-      title: Gradient
-      url: /update_gradient.html
-    - output: web
       title: Salamander
       url: /update_salamander.html
     - output: web
-      title: FloydHub
-      url: /update_floydhub.html
+      title: Gradient
+      url: /update_gradient.html
     - output: web
       title: Kaggle
       url: /update_kaggle.html
@@ -121,6 +115,9 @@ entries:
       title: SageMaker
       url: /update_sagemaker.html
     - output: web
+      title: FloydHub
+      url: /update_floydhub.html
+    - output: web
       title: Google Cloud
       url: /update_gcp.html
     - output: web
@@ -129,6 +126,9 @@ entries:
     - output: web
       title: Azure
       url: /update_azure.html
+    - output: web
+      title: 易学智能 
+      url: /update_easyaiforum.html
   - title: Production
     output: web
     folderitems:
