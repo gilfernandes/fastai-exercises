@@ -1,0 +1,19 @@
+[I 20:16:17.211 NotebookApp] The port 8888 is already in use, trying another port.
+[I 20:16:17.214 NotebookApp] Serving notebooks from local directory: /opt/fastai/fastai-exercises/nbs_gil
+[I 20:16:17.214 NotebookApp] The Jupyter Notebook is running at:
+[I 20:16:17.214 NotebookApp] http://localhost:8889/?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b
+[I 20:16:17.214 NotebookApp]  or http://127.0.0.1:8889/?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b
+[I 20:16:17.214 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 20:16:17.216 NotebookApp] No web browser found: could not locate runnable browser.
+[C 20:16:17.216 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///root/.local/share/jupyter/runtime/nbserver-21982-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8889/?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b
+     or http://127.0.0.1:8889/?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b
+[I 20:18:16.141 NotebookApp] 302 GET /?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b (127.0.0.1) 1.30ms
+[E 20:18:16.260 NotebookApp] Could not open static file ''
+[W 20:18:16.532 NotebookApp] 404 GET /static/components/react/react-dom.production.min.js (127.0.0.1) 20.03ms referer=http://127.0.0.1:28889/tree?token=dcf3504c9604d6149cb83c407d1b3faca63719b4e26c0e2b
+[C 20:18:52.201 NotebookApp] received signal 15, stopping
+[I 20:18:52.201 NotebookApp] Shutting down 0 kernels
