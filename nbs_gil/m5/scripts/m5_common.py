@@ -20,8 +20,6 @@ def prepare_tables(path):
             cal[col] = cal[col].cat.codes.astype("int16")
             cal[col] -= cal[col].min()
             
-    del cal['event_type_2']
-    
     return prices, cal
 
 def create_event_map(cal, field):
