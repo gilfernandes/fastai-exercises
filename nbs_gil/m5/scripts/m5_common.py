@@ -19,8 +19,6 @@ def prepare_tables(path):
         if col_dtype == "category":
             cal[col] = cal[col].cat.codes.astype("int16")
             cal[col] -= cal[col].min()
-            
-    del cal['event_type_2']
     
     return prices, cal
 
