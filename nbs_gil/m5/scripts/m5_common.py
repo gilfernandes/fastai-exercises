@@ -61,14 +61,14 @@ def add_days_before(dt, day=25, month=12, col_name='before_christmas'):
     
 state_map = {'CA': 0, 'TX': 1, 'WI': 2}
     
-def create_dt(cal, prices, is_train = True, nrows = None, first_day = 1200, tr_last=1913, path=None):
+def create_dt(cal, prices, is_train = True, nrows = None, first_day = 1200, tr_last=1913, path=None, h = 28):
     
     start_day = max(1, first_day)
     numcols = [f"d_{day}" for day in range(start_day,tr_last+1)]
     catcols = ['id', 'item_id', 'dept_id','store_id', 'cat_id']
     dtype = {numcol:"float32" for numcol in numcols} 
     dtype.update({col: "category" for col in catcols if col != "id"})
-    dt = pd.read_csv(path/"sales_train_validation.csv", 
+    dt = pd.read_csv(path/"sales_train_evaluation.csv", 
                      nrows = nrows, usecols = catcols + numcols + ['state_id'], dtype = dtype)
     
     dt.replace({'state_id': state_map}, inplace=True)
@@ -80,7 +80,7 @@ def create_dt(cal, prices, is_train = True, nrows = None, first_day = 1200, tr_l
             dt[col] -= dt[col].min()
     
     if not is_train:
-        for day in range(tr_last+1, tr_last+ 28 +1):
+        for day in range(tr_last+1, tr_last + h + 1):
             dt[f"d_{day}"] = np.nan
     
     dt = pd.melt(dt,
