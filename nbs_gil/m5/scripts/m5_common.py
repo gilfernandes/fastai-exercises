@@ -1,5 +1,6 @@
 from  datetime import datetime, timedelta
 import numpy as np, pandas as pd
+from sklearn import datasets, linear_model
 
 CAL_DTYPES={"event_name_2": "category", 
          "event_type_2": "category", "weekday": "category", 'wm_yr_wk': 'int16', "wday": "int16",
@@ -121,3 +122,22 @@ def create_dt(cal, prices, is_train = True, nrows = None, first_day = 1200, tr_l
     convert_float16(dt, ['sales', "sell_price"])
     
     return dt
+
+def ridge_trend_df(dt, period='month', field='lag_1'):
+    lr = linear_model.Ridge()
+    trends = []
+    dt = dt[dt[field].notna()]
+    grouped = dt[["id", field, period]].groupby(["id", period])
+    target_field = f'trend_{period}'
+    for g in grouped[field]:
+        sales = g[1]
+        x = np.arange(len(sales))
+        lr.fit(x.reshape(-1, 1), sales)
+        trends.append({'id': g[0][0], period: g[0][1], target_field : lr.coef_[0]})
+    trends_df = pd.DataFrame(trends)
+    trends_df[target_field] = trends_df[target_field].astype('float16')
+    return trends_df
+
+def ridge_trend(dt, period='month', field='lag_1'):
+    trends_df = ridge_trend_df(dt, period, field)
+    return dt.merge(trends_df, on=['id', period], how='left')
